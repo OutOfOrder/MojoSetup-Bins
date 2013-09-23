@@ -1,0 +1,15 @@
+#!/bin/sh
+
+SETUPDIR="$1"
+
+if [ -z "$SETUPDIR" ]; then
+    echo "Usage $0 Application.mojo"
+    exit 1
+fi
+
+MOJO_DIR=~/Projects/Installers/mojosetup-bin/x86
+
+export MOJOSETUP_GUIPATH=$MOJO_DIR
+export MOJOSETUP_BASE=$SETUPDIR
+$MOJO_DIR/mojosetup --log=- "$@"
+

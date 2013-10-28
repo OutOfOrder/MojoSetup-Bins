@@ -3,12 +3,21 @@
 SETUPDIR="$1"
 
 if [ -z "$SETUPDIR" ]; then
-    echo "Usage $0 Application.mojo"
+    echo "Usage $0 Application.mojo [setup.sh]"
     exit 1
 fi
 
-MOJO_DIR=~/Projects/Installers/mojosetup-bin/
-MOJO_BINDIR=$MOJO_DIR/x86/
+MOJO_DIR=`dirname $0`/mojosetup/
+if [ `arch` == "x86_64" ]; then
+    MOJO_BINDIR=$MOJO_DIR/x86_64
+else
+    MOJO_BINDIR=$MOJO_DIR/x86
+fi
+
+MOJO_OUTPUT="$2"
+if [ -z "$MOJO_OUTPUT" ]; then
+    MOJO_OUTPUT=./setup.sh
+fi
 
 if [ -f install.zip ]; then
     read -n1 -p "Delete existing install.zip?(Y/N)"
@@ -20,7 +29,8 @@ if [ -f install.zip ]; then
         exit 1
     fi
 fi
+
 (cd $SETUPDIR; zip -9r ../install.zip *)
 
-cp $MOJO_DIR/mojosetup.sh ./setup.sh
-$MOJO_BINDIR/make_self_extracting ./setup.sh install.zip
+cp $MOJO_DIR/mojosetup.sh $MOJO_OUTPUT
+$MOJO_BINDIR/make_self_extracting $MOJO_OUTPUT install.zip

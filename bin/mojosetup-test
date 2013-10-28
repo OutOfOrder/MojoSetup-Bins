@@ -7,9 +7,15 @@ if [ -z "$SETUPDIR" ]; then
     exit 1
 fi
 
-MOJO_DIR=~/Projects/Installers/mojosetup-bin/x86
 
-export MOJOSETUP_GUIPATH=$MOJO_DIR
+MOJO_DIR=`dirname $0`/mojosetup/
+if [ `arch` == "x86_64" ]; then
+    MOJO_BINDIR=$MOJO_DIR/x86_64
+else
+    MOJO_BINDIR=$MOJO_DIR/x86
+fi
+
+export MOJOSETUP_GUIPATH=$MOJO_BINDIR
 export MOJOSETUP_BASE=$SETUPDIR
-$MOJO_DIR/mojosetup --log=- "$@"
+$MOJO_BINDIR/mojosetup --log=- "$@"
 

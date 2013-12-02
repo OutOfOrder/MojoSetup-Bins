@@ -1,7 +1,7 @@
 MojoSetup Instructions
 ---------------
 
-I'm using MojoSetup for the linux installer.. The installer binaries themselves are already pre-packaged in a "sh" install header (mojosetup.sh).  So all that is required is to simply put the game data and binaries in the right  folders beneath GameName.mojo and run the mojosetup-prepare script to build the installer.
+I'm using MojoSetup for the linux installer.. The installer binaries themselves are already pre-packaged in a "sh" install header (mojosetup.sh).  So all that is required is to simply put the game data and binaries in the right  folders beneath GameName.mojo and run the mojosetup-package script to build the installer.
 
 Copying Files
 --------------
@@ -40,7 +40,7 @@ Building the Installer
 ----------------------
 Once everything is "in-place".. it's time to build the installer..   
 
-./bin/mojosetup-prepare examples/GameName.mojo GameName-Linux-1.0-2013-10-28.sh
+./bin/mojosetup-package examples/GameName.mojo GameName-Linux-1.0-2013-10-28.sh
 
 it may ask you permission to remove a previous install.zip.. just say yes.
 

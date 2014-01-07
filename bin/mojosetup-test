@@ -7,13 +7,14 @@ if [ -z "$SETUPDIR" ]; then
     exit 1
 fi
 
-if [ -L ]; then
+if [ -L "$0" ]; then
     binpath=`readlink "$0"`
 else
     binpath="$0"
 fi
 
 MOJO_DIR=`dirname "$binpath"`/mojosetup/
+MOJO_DIR=`cd $MOJO_DIR; pwd`
 if [ `arch` == "x86_64" ]; then
     MOJO_BINDIR=$MOJO_DIR/x86_64
 else

@@ -25,6 +25,8 @@ Configuring the installer
 
 The main file that needs to be edited is the config.lua.  Here you can change the game name, executable name, and specify the sizes of the installed game. Read through the comments for basic settings to change..    For more advanced installers see the documentation in the source @ http://www.icculus.org/mojosetup/
 
+Splash images must be in either BMP, JPG, or PNG image format for mojosetup to load them. 
+
 Testing the Installer
 ---------------------
 
@@ -45,4 +47,9 @@ Once everything is "in-place".. it's time to build the installer..
 it may ask you permission to remove a previous install.zip.. just say yes.
 
 What this script does is package the contents of GameName.mojo into a zip file and then "append" the zip to the mojosetup.sh header.  and TADA, linux installer..
+
+Installing the Installer
+-----------------------
+
+My Mojosetup binaries are designed to be "installed" on your system.. e.g. put the whole checkout in /usr/local/share/mojosetup/ and then symlink the two scrips in the "bin" folder (mojosetup-test and mojosetup-package) to a directory in your path (e.g. /usr/local/bin ).  These scripts will auto-detect that they were symlinked and "find" the rest of files to build and test your installers.
 

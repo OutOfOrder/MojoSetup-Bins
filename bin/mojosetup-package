@@ -26,21 +26,28 @@ if [ -z "$MOJO_OUTPUT" ]; then
     MOJO_OUTPUT=./setup.sh
 fi
 
-if [ -f install.zip ]; then
-    read -n1 -p "Delete existing install.zip?(Y/N)"
+MOJO_TEMPZIP=install-$$.zip
+
+if [ -f $MOJO_TEMPZIP ]; then
+    read -n1 -p "Delete existing $MOJO_TEMPZIP?(Y/N)"
     echo
     if [ "$REPLY" == "Y" -o "$REPLY" == "y" ]; then
-        rm -f install.zip
+        rm -f $MOJO_TEMPZIP
     else
-        echo "Delete or move install.zip before running again"
+        echo "Delete or move $MOJO_TEMPZIP before running again"
         exit 1
     fi
 fi
 
-(cd $SETUPDIR; zip -9r ../install.zip *)
-
 ZIPDIR=`cd $SETUPDIR/..; pwd`
 
+(cd $SETUPDIR; zip -9r ../$MOJO_TEMPZIP *)
+
 cp $MOJO_DIR/mojosetup.sh "$MOJO_OUTPUT"
-$MOJO_BINDIR/make_self_extracting "$MOJO_OUTPUT" "$ZIPDIR/install.zip"
+$MOJO_BINDIR/make_self_extracting "$MOJO_OUTPUT" "$ZIPDIR/$MOJO_TEMPZIP"
+if [ $? -eq 0 ]; then
+    rm -f $MOJO_TEMPZIP
+else
+    echo "Failed to create self extracting archive leaving $MOJO_TEMPZIP"
+fi
 

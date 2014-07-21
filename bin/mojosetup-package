@@ -7,6 +7,8 @@ if [ -z "$SETUPDIR" ]; then
     exit 1
 fi
 
+ZIPDIR=`cd $SETUPDIR/..; pwd`
+
 if [ -L "$0" ]; then
     binpath=`readlink "$0"`
 else
@@ -28,26 +30,25 @@ fi
 
 MOJO_TEMPZIP=install-$$.zip
 
-if [ -f $MOJO_TEMPZIP ]; then
-    read -n1 -p "Delete existing $MOJO_TEMPZIP?(Y/N)"
+if [ -f "$ZIPDIR/$MOJO_TEMPZIP" ]; then
+    read -n1 -p "Delete existing $ZIPDIR/$MOJO_TEMPZIP?(Y/N)"
     echo
     if [ "$REPLY" == "Y" -o "$REPLY" == "y" ]; then
-        rm -f $MOJO_TEMPZIP
+        rm -f "$ZIPDIR/$MOJO_TEMPZIP"
     else
-        echo "Delete or move $MOJO_TEMPZIP before running again"
+        echo "Delete or move $ZIPDIR/$MOJO_TEMPZIP before running again"
         exit 1
     fi
 fi
 
-ZIPDIR=`cd $SETUPDIR/..; pwd`
 
-(cd $SETUPDIR; zip -9r ../$MOJO_TEMPZIP *)
+(cd $SETUPDIR; zip -9r "$ZIPDIR/$MOJO_TEMPZIP" *)
 
 cp $MOJO_DIR/mojosetup.sh "$MOJO_OUTPUT"
 $MOJO_BINDIR/make_self_extracting "$MOJO_OUTPUT" "$ZIPDIR/$MOJO_TEMPZIP"
 if [ $? -eq 0 ]; then
-    rm -f $MOJO_TEMPZIP
+    rm -f "$ZIPDIR/$MOJO_TEMPZIP"
 else
-    echo "Failed to create self extracting archive leaving $MOJO_TEMPZIP"
+    echo "Failed to create self extracting archive leaving $ZIPDIR/$MOJO_TEMPZIP"
 fi
 
